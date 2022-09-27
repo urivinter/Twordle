@@ -1,0 +1,95 @@
+body {
+    background-color: #bbb9b9;
+    --green: #8FD694;
+    --yellow: #f0f757;
+    --gray: #bbb9b9;
+    --box: #eee;
+    --border: black;
+}
+
+.block-container {
+    width: 240px;
+    height: auto;
+    margin: auto;
+}
+
+.word-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    column-gap: 5px;
+    margin-top: 5px;
+}
+
+.char-container {
+    border-radius: 3px;
+    background-color: var(--box);
+    font-family: sans-serif;
+    display: inline-flex;
+    font-size: 2rem;
+    height: 53px;
+    width: 44px;
+    border: 2px solid var(--border);
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes to-green {
+    50% {
+        transform: rotateY(90deg);
+        background-color: var(--box);
+    }
+    51% {
+        background-color: var(--green);
+    }
+    100% {
+        transform: rotateY(0deg);
+        background-color: var(--green);
+    }
+}
+
+
+@keyframes to-gray {
+    50% {
+        transform: rotateY(90deg);
+        background-color: var(--box);
+    }
+    51% {
+        background-color: var(--gray);
+    }
+    100% {
+        transform: rotateY(0deg);
+        background-color: var(--gray);
+    }
+}
+
+@keyframes to-yellow {
+    50% {
+        transform: rotateY(90deg);
+        background-color: var(--box);
+    }
+    51% {
+        background-color: var(--yellow);
+    }
+    100% {
+        transform: rotateY(0deg);
+        background-color: var(--yellow);
+    }
+}
+
+.rotate-green {
+    animation: to-green 1s;
+    animation-fill-mode: forwards;
+}
+
+.rotate-gray {
+    animation: to-gray 1s;
+    animation-fill-mode: forwards;
+}
+
+.rotate-yellow {
+    animation: to-yellow 1s;
+    animation-fill-mode: forwards;
+}
+
+  
