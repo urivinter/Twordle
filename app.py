@@ -36,19 +36,16 @@ def check_word(word):
         if word[i] == target.word[i]:
             res[i] = "green"
             target.counter[word[i]] -= 1
-    for i in range(5):
-        if not res[i]:
-            if word[i] not in target.word:
-                res[i] = "gray"
-    for i in range(5):
-        if not res[i]:
-            if target.counter[word[i]]:
-                res[i] = "yellow"
-                target.counter[word[i]] -= 1
-            else:
-                res[i] = "gray"
+        elif target.counter[word[i]]:
+            res[i] = "yellow"
+            target.counter[word[i]] -= 1
+        else:
+            res[i] = "gray"
     res[5] = "yellow" not in res[:4] and "gray" not in res[:4]
     res[6] = True
 
     return res
 
+@app.template_filter()
+def qwerty(i):
+    return "qwertyuiop⌫asdfghjkl⏎zxcvbnm"[i]

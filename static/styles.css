@@ -6,9 +6,25 @@ body {
     --box: #eee;
     --border: black;
 }
+.message-container {
+    height: auto;
+    width: 240px;
+    margin: auto;
+    font-size: 1.5rem;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
 .block-container {
     width: 240px;
+    height: auto;
+    margin: auto;
+}
+
+.keyboard {
+    width: 350px;
     height: auto;
     margin: auto;
 }
@@ -20,18 +36,42 @@ body {
     margin-top: 5px;
 }
 
+.keyboard-row {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
+    margin-top: 2px;
+    justify-content: center;
+}
+
 .char-container {
     border-radius: 3px;
     background-color: var(--box);
     font-family: sans-serif;
     display: inline-flex;
     font-size: 2rem;
-    height: 53px;
+    font-weight: 600;
+    height: 48px;
     width: 44px;
     border: 2px solid var(--border);
     vertical-align: middle;
     justify-content: center;
     align-items: center;
+}
+
+.key {
+    border-radius: 2px;
+    background-color: var(--box);
+    font-family: sans-serif;
+    display: inline-flex;
+    font-size: 1rem;
+    font-weight: 300;
+    height: 33px;
+    width: 27px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    margin: 1px;
 }
 
 @keyframes to-green {

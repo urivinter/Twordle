@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
-    let i = 0
-    const targetWord = "CRANE"
+    $(".word-container").first().attr("id", "current-row")
+    $(".char-container").first().attr("id", "current-char")
     let userWord = ""
 
     $(window).keyup((event) => {

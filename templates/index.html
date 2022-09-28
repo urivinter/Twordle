@@ -9,56 +9,42 @@
     <title></title>
 </head>
 <body>
-    <div class="block-container">
-        <div class="word-container" id="current-row">
-            <div class="char-container" id="current-char"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
-        <div class="word-container">
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
-        <div class="word-container">
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
-        <div class="word-container">
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
-        <div class="word-container">
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
-        <div class="word-container">
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-            <div class="char-container"></div>
-       
-        </div> 
+    <div class="message-container">
+        
     </div>
-    
+    <div class="block-container">
+        {% for _ in range(6) %}
+            <div class="word-container">
+                {% for _ in range(5) %}
+                    <div class="char-container"></div>      
+                {% endfor %} 
+            </div> 
+        {% endfor %}
+    </div>
+    </br>
+    </br>
+    <div class="keyboard">
+        <div class="keyboard-row">
+            {% for i in range(11) %}
+                <div class="key" id="{{ i | qwerty }}">
+                    {{ i | qwerty }}
+                </div>
+            {% endfor %}
+        </div>  
+        <div class="keyboard-row">
+            {% for i in range(11, 21) %}
+                <div class="key" id="{{ i | qwerty }}">
+                    {{ i | qwerty }}
+                </div>
+            {% endfor %}
+        </div>  
+        <div class="keyboard-row">
+            {% for i in range(21, 28) %}
+                <div class="key" id="{{ i | qwerty }}">
+                    {{ i | qwerty }}
+                </div>
+            {% endfor %}
+        </div>  
+    </div>
 </body>
 </html>
