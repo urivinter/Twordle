@@ -2,7 +2,20 @@ window.addEventListener("DOMContentLoaded", () => {
     $(".word-container").first().attr("id", "current-row")
     $(".char-container").first().attr("id", "current-char")
     let userWord = "";
+    let line = 1
     const msg = $(".message-container");
+    $(".popup").toggle()
+
+    $(".btn").click(function() {
+        const source = $(this).attr("id");
+        fetch('/guess', {
+            "method": "POST",
+            "headers": {"Content-Type": "application/json"},
+            body: JSON.stringify({
+              "source": source,
+            })
+        })
+    })
 
     $(window).keyup((event) => {
         msg.html("")
@@ -34,15 +47,12 @@ window.addEventListener("DOMContentLoaded", () => {
         if (word.length < 5) {
             return null
         }
-        submit(word);
-    }
-
-    const submit = function(word) {
         fetch('', {
             "method": "POST",
             "headers": {"Content-Type": "application/json"},
             body: JSON.stringify({
               "word": word,
+              "line": line,
             })
         })
         .then ((response) => response.json())
@@ -51,7 +61,17 @@ window.addEventListener("DOMContentLoaded", () => {
                 msg.html(result.msg);
             } else {
                 showResult(result)
+                if (result.word) {
+                    msg.html(result.word)
+                    $("#endgame").toggle()
+                }
+                line ++;
                 userWord = ''
+                if (result.done) {
+                    msg.html("Win!");
+                    $("#current-char").attr("id", "");
+                    $("#endgame").toggle()
+                }
             }
         })
     }
@@ -63,8 +83,10 @@ window.addEventListener("DOMContentLoaded", () => {
             char.attr("style", `animation-delay: ${500 * i}ms`)
             char.addClass(`rotate-${result[i]}`);
             char = char.next("div");
-            const key = userWord[i].toLowerCase()
-            $(`#${key}`).attr('style', `background-color: var(--${result[i]})`)
+            const key = userWord[i]
+            if ($(`#${key}`).css('background-color') != "rgb(143, 214, 148)") {
+                $(`#${key}`).css('background-color', `var(--${result[i]})`)
+            }
 
         }
         row.attr("id", "");

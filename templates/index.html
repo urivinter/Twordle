@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="message-container">
-        
+       {{msg}} 
     </div>
     <div class="block-container">
         {% for _ in range(6) %}
@@ -44,7 +44,24 @@
                     {{ i | qwerty }}
                 </div>
             {% endfor %}
-        </div>  
+        </div> 
+        <div class="popup" id="endgame">
+            <div class="header">
+                Guess the database
+            </div>
+            
+            {% for i in range(10) %}
+                <form action="/" method="post">
+                    <input type="hidden" name="num" value="{{ i }}">
+                    <button class="btn" type="submit">
+                        CS50 Week {{ i }}
+                    </button>
+                </form>
+                
+            {% endfor %}
+                
+
+        </div>
     </div>
 </body>
 </html>

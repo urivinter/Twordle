@@ -1,14 +1,17 @@
 body {
-    background-color: #bbb9b9;
+    font-family: sans-serif;
+    --bg: #999;
     --green: #8FD694;
     --yellow: #f0f757;
     --gray: #bbb9b9;
     --box: #eee;
     --border: black;
+    --active: #40a2ee;
+    background-color: var(--bg);
 }
 .message-container {
-    height: auto;
-    width: 240px;
+    height: 35px;
+    width: 340px;
     margin: auto;
     font-size: 1.5rem;
     vertical-align: middle;
@@ -75,6 +78,11 @@ body {
     margin: 1px;
 }
 
+.key:hover {
+    border: 2px solid var(--active);
+    margin: 0px;
+}
+
 @keyframes to-green {
     50% {
         transform: rotateY(90deg);
@@ -133,4 +141,28 @@ body {
     animation-fill-mode: forwards;
 }
 
-  
+.popup {
+    border: 1px solid var(--border);
+    background-color: var(--active);
+    position: absolute;
+    width: 310px;
+    height: auto;
+    margin: auto;
+    top: 100px;
+    left: calc(50% - 155px)
+} 
+.header {
+    text-align: center;
+    font-size: 1.5rem;
+}
+.btn {
+    display: block;
+    border: 1px solid var(--border);
+    background-color: inherit;
+    margin: auto;
+    margin-top: 2px;
+    text-align: center;
+}
+.btn:hover {
+    border: 2px solid white;
+}
