@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify
+from random import choice
 
 app = Flask(__name__)
 
@@ -9,7 +10,14 @@ class Word:
     def reset(self):
         self.counter = {chr(i): self.word.count(chr(i)) for i in range(97, 123)}
 
-target = Word("fetch")
+
+words = []
+with open("4.txt", "r") as f:
+    for word in f:
+        words.append(word[:5])
+
+target = Word(choice(words).lower())
+print(target.word)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -17,15 +25,15 @@ def index():
         return render_template("index.html")
     else:
         user_word = request.json['word']
+        if user_word not in words:
+            return {"msg": "Word not in database"}
         res = check_word(user_word)
-
         return {"0": res[0], 
                 "1": res[1], 
                 "2": res[2], 
                 "3": res[3], 
                 "4": res[4], 
                 "done": res[5],
-                "inDatabase": True,
                 }
 
 def check_word(word):

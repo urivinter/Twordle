@@ -1,9 +1,11 @@
 window.addEventListener("DOMContentLoaded", () => {
     $(".word-container").first().attr("id", "current-row")
     $(".char-container").first().attr("id", "current-char")
-    let userWord = ""
+    let userWord = "";
+    const msg = $(".message-container");
 
     $(window).keyup((event) => {
+        msg.html("")
         let div = $("#current-row").find("#current-char");
         if (event.key.length === 1 && event.key.match(/[a-z]/i) && userWord.length < 5) {
             div.html(event.key.toUpperCase());
@@ -45,8 +47,12 @@ window.addEventListener("DOMContentLoaded", () => {
         })
         .then ((response) => response.json())
         .then ((result) => {
-            showResult(result)
-            userWord = ''
+            if (result.msg) {
+                msg.html(result.msg);
+            } else {
+                showResult(result)
+                userWord = ''
+            }
         })
     }
 
