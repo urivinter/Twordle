@@ -19,12 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (word.length < 5) {
             return null
         }
-        const result = submit(word);
-        const row = $("#current-row");
-        if (result) {
-            console.log(result)
-            
-        }  
+        submit(word);
     }
 
     const submit = function(word) {
@@ -43,13 +38,15 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     const showResult = function(result) {
-        console.log(result);
         const row = $("#current-row");
         let char = row.children("div").first();
-        for (let i = 0; i <= 5; i++) {
+        for (let i = 0; i <= 4; i++) {
             char.attr("style", `animation-delay: ${500 * i}ms`)
             char.addClass(`rotate-${result[i]}`);
             char = char.next("div");
+            const key = userWord[i].toLowerCase()
+            $(`#${key}`).attr('style', `background-color: var(--${result[i]})`)
+
         }
         row.attr("id", "");
         row.next("div").attr("id", "current-row");

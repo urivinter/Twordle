@@ -18,7 +18,7 @@ body {
 }
 
 .block-container {
-    width: 240px;
+    width: 290px;
     height: auto;
     margin: auto;
 }
@@ -34,6 +34,7 @@ body {
     grid-template-columns: auto auto auto auto auto;
     column-gap: 5px;
     margin-top: 5px;
+    justify-content: center;
 }
 
 .keyboard-row {
