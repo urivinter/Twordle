@@ -3,13 +3,6 @@ from random import choice, randint
 
 app = Flask(__name__)
 
-class Word:
-    def __init__(self, word):
-        self.word = word
-        self.counter = {}
-    def reset(self):
-        self.counter = {chr(i): self.word.count(chr(i)) for i in range(65, 91)}
-
 class Db:
     def __init__(self):
         self.words = []
@@ -17,22 +10,29 @@ class Db:
         with open(f"{self.lecture}.txt", "r") as f:
             for word in f:
                 self.words.append(word[:5])
+        self.word = choice(self.words)
+        self.counter = {}
+
+    def reset_counter(self):
+        self.counter = {chr(i): self.word.count(chr(i)) for i in range(65, 91)}
+    
+    def reset_word(self):
+        self.word = choice(self.words)
+        self.reset_counter()
 
 db = Db()
-
-target = Word(choice(db.words))
- 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        target.word = choice(db.words)
-        target.reset()
+        db.reset_word()
         return render_template("index.html", msg="")
     elif request.form:
         msg = "Right!" if int(request.form['num']) == db.lecture else "Wrong. Try again!"
         if msg == "Right!":
             db.__init__()
+        else:
+            db.reset_word()
         return render_template("index.html", msg=msg) 
     else:
         user_word = request.json['word'].upper()
@@ -41,7 +41,9 @@ def index():
         res = check_word(user_word)
         word = ""
         if request.json['line'] == 6 and not res[5]:
-            word = f'The word was {target.word.capitalize()}'
+            word = f'The word was {db.word.capitalize()}'
+        elif res[5]:
+            db.reset_word()
         return {"0": res[0], 
                 "1": res[1], 
                 "2": res[2], 
@@ -52,17 +54,16 @@ def index():
                 }
 
 def check_word(word):
-    word = word
-    target.reset()
+    db.reset_counter()
     done = True
     res = [None for _ in range(6)]
     for i in range(5):
-        if word[i] == target.word[i]:
+        if word[i] == db.word[i]:
             res[i] = "green"
-            target.counter[word[i]] -= 1
-        elif target.counter[word[i]]:
+            db.counter[word[i]] -= 1
+        elif db.counter[word[i]]:
             res[i] = "yellow"
-            target.counter[word[i]] -= 1
+            db.counter[word[i]] -= 1
             done = False
         else:
             res[i] = "gray"

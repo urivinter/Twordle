@@ -6,16 +6,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const msg = $(".message-container");
     $(".popup").toggle()
 
-    $(".btn").click(function() {
-        const source = $(this).attr("id");
-        fetch('/guess', {
-            "method": "POST",
-            "headers": {"Content-Type": "application/json"},
-            body: JSON.stringify({
-              "source": source,
-            })
-        })
-    })
 
     $(window).keyup((event) => {
         msg.html("")
@@ -63,14 +53,14 @@ window.addEventListener("DOMContentLoaded", () => {
                 showResult(result)
                 if (result.word) {
                     msg.html(result.word)
-                    $("#endgame").toggle()
+                    $("#endgame").slideToggle(3000)
                 }
                 line ++;
                 userWord = ''
                 if (result.done) {
                     msg.html("Win!");
                     $("#current-char").attr("id", "");
-                    $("#endgame").toggle()
+                    $("#endgame").slideToggle(3000)
                 }
             }
         })
