@@ -3,8 +3,9 @@
     at the end of each round, the user can guess the database from which the words are generated.
     Upon a successful database guess, the game continues with another random database. """
 
-from flask import Flask, request, render_template, jsonify, redirect
+from flask import Flask, request, render_template
 from random import choice, randint
+import json
 
 app = Flask(__name__)
 
@@ -27,9 +28,10 @@ class Db:
 
     def __init__(self):
         self.words = []  # All words in the database
-        self.known_words_in = [] # Words known to be in the database. 
-        self.known_words_out = [] # Words known to not be in the database. 
-        self.database_number = randint(0, len(DATABASE_NAMES))  # To be guessed
+        self.known_words_in = set() # Words known to be in the database. 
+        self.known_words_out = set() # Words known to not be in the database.
+        self.db_guessed = {i for i in range(len(DATABASE_NAMES))}   
+        self.database_number = randint(0, len(DATABASE_NAMES) - 1)  # To be guessed
         self.word = ""  # To be guessed
         self.counter = {}  # Character dictionary. helper for check_word
 
@@ -49,11 +51,10 @@ class Db:
     
     def remember(self, word):
         if word in self.words:
-            self.known_words_in.append(word)
-            self.words.remove(word)
+            self.known_words_in.add(word)
             return True
         else:
-            self.known_words_out.append(word)
+            self.known_words_out.add(word)
             return False
 
 # Create databade object
@@ -63,14 +64,23 @@ db = Db()
 @app.route("/api", methods=["POST"])
 def api():
     # Handle database guess
-    database_guess = int(request.json['num'])
-    if database_guess == db.database_number:
-        msg = "Right!"
-        db.__init__()
-    else:
-        msg = "Wrong. Try again!"
-        db.reset_word
-    return {"msg": msg}
+    if (num := request.json.get('num')):
+        database_guess = int(num)
+
+        if database_guess == db.database_number:
+            msg = "Right! reseting"
+            db.__init__()
+
+        else:
+            msg = "Wrong. Try again!"
+            db.db_guessed.discard(database_guess)
+            db.reset_word
+
+        return {"msg": msg}
+    
+    # Handle recall request
+    elif request.json.get('recall'):
+        return {"inDb": json.dumps(list(db.known_words_in)), "notInDb": json.dumps(list(db.known_words_out))}
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -96,6 +106,7 @@ def index():
         # Sixth guess wrong
         if request.json['line'] == 6 and not done:
             msg = f'The word was {db.word.capitalize()}'
+            db.remember(db.word)
 
         # Guessed right
         elif done:
@@ -108,7 +119,8 @@ def index():
                 "4": colors[4], 
                 "done": done,
                 "msg": msg, 
-                "wordInDb": word_in_db
+                "wordInDb": word_in_db, 
+                "dbGuessed": json.dumps(list(db.db_guessed)),
                 }
 
 
@@ -138,5 +150,5 @@ def check_word(word):
         else:
             colors[i] = "gray"
             done = False
-            
+
     return colors, done

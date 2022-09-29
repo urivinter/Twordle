@@ -12,6 +12,8 @@
     <div class="message-container">
        {{msg}} 
     </div>
+    <img class="svg" id="info" src="/static/info-circle.svg"/>
+    <img class="svg" id="close" src="/static/x-circle.svg"/>
     <div class="block-container">
         {% for _ in range(6) %}
             <div class="word-container">
@@ -52,7 +54,7 @@
             </div>
             
             {% for i, name in names %}
-            
+
                 <div class="btn" id="{{ i }}">
                     {{ name }}
                 </div>
@@ -66,6 +68,25 @@
             <p>
                  Generate Lorem Ipsum placeholder text. Select the number of characters, words, sentences or paragraphs, and hit generate!
             </p> 
+        </div>
+
+        <div class="popup" id="recall">
+            <div class="col" id="left">
+                <div class="header">
+                    In database
+                </div>
+                <div class="words">
+
+                </div>
+            </div>
+            <div class="col" id="right">
+                <div class="header">
+                    Not in database
+                </div>
+                <div class="words">
+                    
+                </div>
+            </div>
         </div>
     </div>
 </body>

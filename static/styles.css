@@ -22,6 +22,15 @@ body {
     text-align: center;
 }
 
+.svg {
+    position: absolute;
+    width: 20px;
+    height: auto;
+    right: 15px;
+    top: 15px;
+    filter: invert(80%);
+}
+
 .block-container {
     width: 290px;
     height: auto;
@@ -159,6 +168,11 @@ body {
     left: calc(50% - 145px)
 } 
 
+#recall {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
 .header {
     color: var(--box);
     padding: 5px;
@@ -168,8 +182,11 @@ body {
     font-size: 1.5rem;
 }
 
-.btn {
+#recall .header {
+    font-size: smaller;
+}
 
+.btn {
     font-size: small;
     border: 2px solid var(--border);
     border-radius: 3px;
@@ -177,13 +194,16 @@ body {
     width: 80%;
     height: 21px;
     margin: auto;
-    margin-top: 2px;
-
+    margin-top: 2px;    
     vertical-align:auto;
     justify-content: center;
     padding: auto;
     padding-top: 3px;
     padding-left: 10px;
+}
+
+.used {
+    background-color: var(--gray);
 }
 
 .btn:hover {
@@ -195,4 +215,13 @@ p {
     width: 80%;
     margin:auto;
     margin-top: 10px;
+}
+
+.words {
+    height: 310px;
+    overflow-y: scroll;
+}
+
+.words > p {
+    text-align: center;
 }
