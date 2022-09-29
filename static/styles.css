@@ -153,7 +153,7 @@ body {
 
     position: absolute;
     width: 280px;
-    height: 340px;
+    height: 353px;
     margin: auto;
     top: 46px;
     left: calc(50% - 145px)
@@ -169,18 +169,30 @@ body {
 }
 
 .btn {
-    display: block;
+
+    font-size: small;
     border: 2px solid var(--border);
     border-radius: 3px;
     background-color: var(--box);
     width: 80%;
-    height: 23px;
+    height: 21px;
     margin: auto;
-    margin-top: 6px;
-    text-align: center;
+    margin-top: 2px;
+
+    vertical-align:auto;
+    justify-content: center;
+    padding: auto;
+    padding-top: 3px;
+    padding-left: 10px;
 }
 
 .btn:hover {
-    border: 2px solid var(--active);
-    
+    border: 2px solid var(--active);   
+}
+
+p {
+    color: var(--box);
+    width: 80%;
+    margin:auto;
+    margin-top: 10px;
 }

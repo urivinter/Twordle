@@ -25,42 +25,47 @@
     </br>
     <div class="keyboard">
         <div class="keyboard-row">
-            {% for i in range(11) %}
-                <div class="key" id="{{ i | qwerty }}">
-                    {{ i | qwerty }}
+            {% for key in "QWERTYUIOP⌫" %}
+                <div class="key" id="{{ key }}">
+                    {{ key }}
                 </div>
             {% endfor %}
         </div>  
         <div class="keyboard-row">
-            {% for i in range(11, 21) %}
-                <div class="key" id="{{ i | qwerty }}">
-                    {{ i | qwerty }}
+            {% for key in "ASDFGHJKL⏎" %}
+                <div class="key" id="{{ key }}">
+                    {{ key }}
                 </div>
             {% endfor %}
         </div>  
         <div class="keyboard-row">
-            {% for i in range(21, 28) %}
-                <div class="key" id="{{ i | qwerty }}">
-                    {{ i | qwerty }}
+            {% for key in "ZXCVBNM" %}
+                <div class="key" id="{{ key }}">
+                    {{ key }}
                 </div>
             {% endfor %}
-        </div> 
+        </div>  
+      
         <div class="popup" id="endgame">
             <div class="header">
                 Guess the database
             </div>
             
-            {% for i in range(10) %}
-                <form action="/" method="post">
-                    <input type="hidden" name="num" value="{{ i }}">
-                    <button class="btn" type="submit">
-                        <strong>CS50 Week {{ i }}</strong>
-                    </button>
-                </form>
+            {% for i, name in names %}
+            
+                <div class="btn" id="{{ i }}">
+                    {{ name }}
+                </div>
                 
             {% endfor %}
-                
-
+        </div>
+        <div class="popup" id="welcome">
+            <div class="header">
+               <strong>Welcome to <i>CS50</i>ell</strong>
+            </div>
+            <p>
+                 Generate Lorem Ipsum placeholder text. Select the number of characters, words, sentences or paragraphs, and hit generate!
+            </p> 
         </div>
     </div>
 </body>

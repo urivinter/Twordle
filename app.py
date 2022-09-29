@@ -1,17 +1,44 @@
+""" This app is a two-level Wordle game.
+    Every round the user tries to guess the word.
+    at the end of each round, the user can guess the database from which the words are generated.
+    Upon a successful database guess, the game continues with another random database. """
+
 from flask import Flask, request, render_template, jsonify, redirect
 from random import choice, randint
 
 app = Flask(__name__)
 
+# Use up to 10 for best appearence
+DATABASE_NAMES = [
+    (0, "Week 0 Scratch"), 
+    (1, "Week 1 C"), 
+    (2, "Week 2 Arrays"), 
+    (3, "Week 3 Algorithms"), 
+    (4, "Week 4 Memory"), 
+    (5, "Week 5 Data Structures"), 
+    (6, "Week 6 Python"), 
+    (7, "Week 7 SQL"), 
+    (8, "Week 8 HTML, CSS, JavaScript"), 
+    (9, "Week 9 Flask")
+]
+
+
 class Db:
+
     def __init__(self):
-        self.words = []
-        self.lecture = randint(0, 9)
-        with open(f"{self.lecture}.txt", "r") as f:
+        self.words = []  # All words in the database
+        self.known_words_in = [] # Words known to be in the database. 
+        self.known_words_out = [] # Words known to not be in the database. 
+        self.database_number = randint(0, len(DATABASE_NAMES))  # To be guessed
+        self.word = ""  # To be guessed
+        self.counter = {}  # Character dictionary. helper for check_word
+
+        # Get all words from file
+        with open(f"{self.database_number}.txt", "r") as f:
             for word in f:
                 self.words.append(word[:5])
-        self.word = choice(self.words)
-        self.counter = {}
+
+        self.reset_word()
 
     def reset_counter(self):
         self.counter = {chr(i): self.word.count(chr(i)) for i in range(65, 91)}
@@ -19,58 +46,97 @@ class Db:
     def reset_word(self):
         self.word = choice(self.words)
         self.reset_counter()
+    
+    def remember(self, word):
+        if word in self.words:
+            self.known_words_in.append(word)
+            self.words.remove(word)
+            return True
+        else:
+            self.known_words_out.append(word)
+            return False
 
+# Create databade object
 db = Db()
+
+
+@app.route("/api", methods=["POST"])
+def api():
+    # Handle database guess
+    database_guess = int(request.json['num'])
+    if database_guess == db.database_number:
+        msg = "Right!"
+        db.__init__()
+    else:
+        msg = "Wrong. Try again!"
+        db.reset_word
+    return {"msg": msg}
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+
+    # Main view
     if request.method == "GET":
         db.reset_word()
-        return render_template("index.html", msg="")
-    elif request.form:
-        msg = "Right!" if int(request.form['num']) == db.lecture else "Wrong. Try again!"
-        if msg == "Right!":
-            db.__init__()
-        else:
-            db.reset_word()
-        return render_template("index.html", msg=msg) 
+        return render_template("index.html", msg='', names=DATABASE_NAMES)
+
+    # Handle word guess
     else:
-        user_word = request.json['word'].upper()
-        if user_word not in db.words:
+        word_guess = request.json['word'].upper()
+
+        # Guessed word not in database 
+        if not (word_in_db := db.remember(word_guess)):
             return {"msg": "Word not in database"}
-        res = check_word(user_word)
-        word = ""
-        if request.json['line'] == 6 and not res[5]:
-            word = f'The word was {db.word.capitalize()}'
-        elif res[5]:
+
+        # Compare to target word
+        colors, done = check_word(word_guess)
+
+        msg = ""
+        # Sixth guess wrong
+        if request.json['line'] == 6 and not done:
+            msg = f'The word was {db.word.capitalize()}'
+
+        # Guessed right
+        elif done:
             db.reset_word()
-        return {"0": res[0], 
-                "1": res[1], 
-                "2": res[2], 
-                "3": res[3], 
-                "4": res[4], 
-                "done": res[5],
-                "word": word 
+
+        return {"0": colors[0], 
+                "1": colors[1], 
+                "2": colors[2], 
+                "3": colors[3], 
+                "4": colors[4], 
+                "done": done,
+                "msg": msg, 
+                "wordInDb": word_in_db
                 }
 
+
 def check_word(word):
+    """ calculate response colors """
+
     db.reset_counter()
     done = True
-    res = [None for _ in range(6)]
+    colors = [None for _ in range(5)]
+    
+    # Greens first
     for i in range(5):
         if word[i] == db.word[i]:
-            res[i] = "green"
+            colors[i] = "green"
             db.counter[word[i]] -= 1
-        elif db.counter[word[i]]:
-            res[i] = "yellow"
-            db.counter[word[i]] -= 1
-            done = False
-        else:
-            res[i] = "gray"
-            done = False
-    res[5] = done
-    return res
+    
+    # Yellows and grays
+    for i in range(5):
+        if colors[i]:
+            continue
 
-@app.template_filter()
-def qwerty(i):
-    return "QWERTYUIOP⌫ASDFGHJKL⏎ZXCVBNM"[i]
+        if db.counter[word[i]]:
+            colors[i] = "yellow"
+            db.counter[word[i]] -= 1
+            done = False
+
+        else:
+            colors[i] = "gray"
+            done = False
+            
+    return colors, done
