@@ -3,7 +3,7 @@ body {
     --bg: #303030;
     --green: #8FD694;
     --yellow: #f0f757;
-    --gray: #bbb9b9;
+    --gray: #aaa9a9;
     --box: #eee;
     --border: silver;
     --active: #40a2ee;
@@ -29,6 +29,29 @@ body {
     right: 15px;
     top: 15px;
     filter: invert(80%);
+}
+
+#howto {
+    top: 45px;
+}
+
+#refresh {
+    top: 75px;
+}
+
+.svg:hover {
+    filter: invert(100%);
+    width: 23px;
+    top: 14px;
+    right: 13px;
+}
+
+#howto:hover {
+    top: 44px;
+}
+
+#refreh:hover {
+    top: 74px;
 }
 
 .block-container {
@@ -170,7 +193,7 @@ body {
 
 #recall {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 140px 140px;
 }
 
 .header {
@@ -225,3 +248,23 @@ p {
 .words > p {
     text-align: center;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--active);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--active);
+  }

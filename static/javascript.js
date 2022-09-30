@@ -22,10 +22,19 @@ window.addEventListener("DOMContentLoaded", () => {
             $("#endgame").toggle();
         })
     })
+
+    $("#howto").click(() => {
+        $(".svg").toggle();
+        $("#welcome").toggle();
+
+    })
+
     $("#close").click(function() {
-        $("#recall").toggle();
+        $("#recall").hide();
+        $("#welcome").hide()
         $(".svg").toggle();
     })
+
     $("#info").click(function() {
         fetch('/api', {
             "method": "POST",
