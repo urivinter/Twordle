@@ -164,17 +164,17 @@ body {
 }
 
 .rotate-green {
-    animation: to-green 1s;
+    animation: to-green 800ms;
     animation-fill-mode: forwards;
 }
 
 .rotate-gray {
-    animation: to-gray 1s;
+    animation: to-gray 800ms;
     animation-fill-mode: forwards;
 }
 
 .rotate-yellow {
-    animation: to-yellow 1s;
+    animation: to-yellow 800ms;
     animation-fill-mode: forwards;
 }
 
