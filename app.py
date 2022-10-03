@@ -4,10 +4,12 @@
     Upon a successful database guess, the game continues with another random database. """
 
 from flask import Flask, request, render_template
-from random import choice, randint
+from random import choice
 import json
 
 app = Flask(__name__)
+
+# Global variables
 
 # Use up to 10 for best appearence
 DATABASE_NAMES = [
@@ -23,17 +25,27 @@ DATABASE_NAMES = [
     (9, "Week 9 Flask")
 ]
 
+MESSAGES = {
+    1: ["WOW!",     "AWSOME!",      "(Ͼ˳Ͽ)..!!!" ], 
+    2: ["Superb",   "Genius",       "( •_•)>⌐■-■ (⌐■_■)" ], 
+    3: ["Good",     "Nice",         "\m/_(>_<)_\m/" ], 
+    4: ["Cool",     "Classy",       "(‾⌣‾)" ], 
+    5: ["Got it!",  "Good job",     "٩( ᐛ )و" ],
+    6: ["Phew",     "By a thread",  "¯\_(ツ)_/¯" ]
+}
 
 class Db:
-
+    """
+    An object to contain the current database, guess states and more 
+    """
     def __init__(self):
-        self.words = []  # All words in the database
-        self.known_words_in = set() # Words known to be in the database. 
-        self.known_words_out = set() # Words known to not be in the database.
-        self.db_guessed = {i for i in range(len(DATABASE_NAMES))}   
-        self.database_number = randint(0, len(DATABASE_NAMES) - 1)  # To be guessed
-        self.word = ""  # To be guessed
-        self.counter = {}  # Character dictionary. helper for check_word
+        self.words = []                                   # All words in the database
+        self.known_words_in = set()                       # Words known to be in the database (guessed by user this session)
+        self.known_words_out = set()                      # Words known to not be in the database (guessed by user this session)
+        self.db_guessed = {i for i, _ in DATABASE_NAMES}  # Database file numbers not yet guessed
+        self.database_number = choice(DATABASE_NAMES)[0]  # Random database file number
+        self.word = ""                                    # The word for the user to guess
+        self.counter = {}                                 # Character dictionary. helper for check_word
 
         # Get all words from file
         with open(f"{self.database_number}.txt", "r") as f:
@@ -42,14 +54,16 @@ class Db:
 
         self.reset_word()
 
-    def reset_counter(self):
-        self.counter = {chr(i): self.word.count(chr(i)) for i in range(65, 91)}
-    
     def reset_word(self):
         self.word = choice(self.words)
         self.reset_counter()
+
+    def reset_counter(self):
+        """ Set dictionary: keys are a-z, values are each character's appearance count in target word """
+        self.counter = {chr(i): self.word.count(chr(i)) for i in range(65, 91)}
     
     def remember(self, word):
+        """ Keep words guessed by user in memory. return True if word is in database """
         if word in self.words:
             self.known_words_in.add(word)
             return True
@@ -68,11 +82,11 @@ def api():
         database_guess = int(num)
 
         if database_guess == db.database_number:
-            msg = "Right! reseting"
+            msg = f"Yay! {len(db.known_words_in) + len(db.known_words_out)} word total"
             db.__init__()
 
         else:
-            msg = "Wrong. Try again!"
+            msg = "Nah. Try again!"
             db.db_guessed.discard(database_guess)
             db.reset_word
 
@@ -106,10 +120,10 @@ def index():
         # Sixth guess wrong
         if request.json['line'] == 6 and not done:
             msg = f'The word was {db.word.capitalize()}'
-            db.remember(db.word)
 
         # Guessed right
         elif done:
+            msg = choice(MESSAGES[request.json['line']])
             db.reset_word()
 
         return {"0": colors[0], 
@@ -125,7 +139,7 @@ def index():
 
 
 def check_word(word):
-    """ calculate response colors """
+    """ Calculate response colors """
 
     db.reset_counter()
     done = True

@@ -1,5 +1,4 @@
 body {
-    font-family: sans-serif;
     --bg: #303030;
     --green: #8FD694;
     --yellow: #f0f757;
@@ -7,6 +6,10 @@ body {
     --box: #eee;
     --border: silver;
     --active: #40a2ee;
+
+    --flip-time: 600ms;
+
+    font-family: sans-serif;
     background-color: var(--bg);
     color: var(--bg)
 }
@@ -51,7 +54,7 @@ body {
 }
 
 #refreh:hover {
-    top: 74px;
+    top: 73px;
 }
 
 .block-container {
@@ -164,17 +167,17 @@ body {
 }
 
 .rotate-green {
-    animation: to-green 800ms;
+    animation: to-green var(--flip-time);
     animation-fill-mode: forwards;
 }
 
 .rotate-gray {
-    animation: to-gray 800ms;
+    animation: to-gray var(--flip-time);
     animation-fill-mode: forwards;
 }
 
 .rotate-yellow {
-    animation: to-yellow 800ms;
+    animation: to-yellow var(--flip-time);
     animation-fill-mode: forwards;
 }
 
@@ -252,19 +255,19 @@ p {
 /* width */
 ::-webkit-scrollbar {
     width: 4px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: var(--bg);
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: var(--active);
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--active);
-  }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: var(--bg);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: var(--active);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: var(--active);
+}

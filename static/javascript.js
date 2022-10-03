@@ -1,12 +1,16 @@
 window.addEventListener("DOMContentLoaded", () => {
+  // Define global variables
+  const FLIPTIME = 600;
+  const msg = $(".message-container");
+  let userWord = "";
+  let line = 1;
+  
+  // Share FLIPTIME constant with CSS 
+  document.querySelector("body").style.setProperty("--flip-time", `${FLIPTIME}ms`);
+
   // Define active character box
   $(".word-container").first().attr("id", "current-row");
   $(".char-container").first().attr("id", "current-char");
-
-  // Define global variables
-  let userWord = "";
-  let line = 1;
-  const msg = $(".message-container");
 
   // Hide pop-up elements
   $(".popup").hide();
@@ -163,11 +167,6 @@ window.addEventListener("DOMContentLoaded", () => {
           showResult(result);
           line++;
           userWord = "";
-          
-          // Right word
-          if (result.done) {
-            msg.html("Win!");
-          }
 
           // Last guess
           if (result.done || line === 7) {
@@ -182,7 +181,7 @@ window.addEventListener("DOMContentLoaded", () => {
             $("#current-char").attr("id", "");
 
             // Toggle database guess view
-            $("#endgame").slideToggle(3300);
+            $("#endgame").delay(FLIPTIME * 4.5).toggle(1);
           }
         }
       });
@@ -196,12 +195,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Animate each character
     for (let i = 0; i <= 4; i++) {
-      char.attr("style", `animation-delay: ${400 * i}ms`);
+      char.attr("style", `animation-delay: ${FLIPTIME / 2 * i}ms`);
       char.addClass(`rotate-${result[i]}`);
       char = char.next();
 
       // Color virtual keyboard keys
       const key = userWord[i];
+      // Only color non-green buttons
       if ($(`#${key}`).css("background-color") != "rgb(143, 214, 148)") {
         $(`#${key}`).css("background-color", `var(--${result[i]})`);
       }
