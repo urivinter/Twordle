@@ -24,8 +24,10 @@ a wrong choice leads back to stage 1 with a fresh word, and a right choice resta
 2. A table of all words tried this session under "i" symbol.
 
 ### Screenshots
-- ##### Stage 1 - Guess the word
-- ##### Stage 2 - Guess the database
+##### Stage 1 - Guess the word
+[](/static/screenshot0.jpg)
+
+##### Stage 2 - Guess the database
 
 ### How to install
 1. Fork this repo. ([learn how](https://docs.github.com/en/get-started/quickstart/fork-a-repo))
