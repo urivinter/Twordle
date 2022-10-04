@@ -24,8 +24,10 @@ a wrong choice leads back to stage 1 with a fresh word, and a right choice resta
 2. A table of all words tried this session under "i" symbol.
 
 ### Screenshots
+
 ##### Stage 1 - Guess the word
-[](/static/screenshot0.jpg)
+
+[](https://github.com/urivinter/Twordle/blob/main/static/screenshot0.jpg)
 
 ##### Stage 2 - Guess the database
 
