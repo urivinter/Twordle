@@ -27,9 +27,13 @@ a wrong choice leads back to stage 1 with a fresh word, and a right choice resta
 
 ##### Stage 1 - Guess the word
 
-[](https://github.com/urivinter/Twordle/blob/main/static/screenshot0.jpg)
+![](https://github.com/urivinter/Twordle/blob/main/static/screenshot0.jpg)
+![](https://github.com/urivinter/Twordle/blob/main/static/screenshot1.jpg)
 
 ##### Stage 2 - Guess the database
+
+![](https://github.com/urivinter/Twordle/blob/main/static/screenshot2.jpg)
+![](https://github.com/urivinter/Twordle/blob/main/static/screenshot3.jpg)
 
 ### How to install
 1. Fork this repo. ([learn how](https://docs.github.com/en/get-started/quickstart/fork-a-repo))
