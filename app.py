@@ -48,7 +48,7 @@ class Db:
         self.counter = {}                                 # Character dictionary. helper for check_word
 
         # Get all words from file
-        with open(f"{self.database_number}.txt", "r") as f:
+        with open(f"static/{self.database_number}.txt", "r") as f:
             for word in f:
                 self.words.append(word[:5])
 
